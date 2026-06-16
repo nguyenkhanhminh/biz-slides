@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style B — Ledger Light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Source+Sans+3:wght@300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; width: 100%; overflow: hidden; background: #fafaf8; }
+
+/* === THEME === */
+:root {
+    --bg:               #fafaf8;
+    --header-stripe:    #1a1a1a;
+    --on-stripe:        #f5f4f0;
+    --text-primary:     #1a1a1a;
+    --text-muted:       #7a7a78;
+    --accent-neg:       #c0392b;
+    --accent-pos:       #1a7a4a;
+    --border:           #e0ddd8;
+    --card-bg:          #ffffff;
+    --font-display:     'Bricolage Grotesque', sans-serif;
+    --font-body:        'Source Sans 3', sans-serif;
+    --font-mono:        'Space Mono', monospace;
+}
+
+/* === SLIDE === */
+.slide {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background: var(--bg);
+}
+
+/* === HEADER STRIPE === */
+.header-stripe {
+    background: var(--header-stripe);
+    padding: clamp(14px, 2vh, 22px) clamp(32px, 4vw, 64px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    animation: slideDown 0.45s ease 0s both;
+}
+
+.header-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: var(--on-stripe);
+    letter-spacing: -0.01em;
+}
+
+.header-meta {
+    font-family: var(--font-mono);
+    font-size: clamp(0.55rem, 0.8vw, 0.7rem);
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* === MAIN CONTENT === */
+.main {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0;
+    padding: clamp(24px, 3.5vh, 48px) clamp(32px, 4vw, 64px);
+}
+
+.divider-col {
+    background: var(--border);
+    margin: 0 clamp(24px, 3vw, 48px);
+}
+
+/* === LEFT COLUMN: NUMBERS === */
+.col-left {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 2.5vh, 28px);
+}
+
+.col-label {
+    font-family: var(--font-mono);
+    font-size: clamp(0.55rem, 0.75vw, 0.65rem);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    opacity: 0;
+    animation: fadeUp 0.4s ease 0.2s both;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(10px, 1.5vh, 16px);
+}
+
+.kpi-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    padding: clamp(12px, 1.8vh, 20px);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    opacity: 0;
+    animation: fadeUp 0.4s ease var(--delay, 0.3s) both;
+}
+
+.kpi-value {
+    font-family: var(--font-mono);
+    font-size: clamp(1.6rem, 3.2vw, 2.8rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+}
+
+.kpi-value.pos { color: var(--accent-pos); }
+.kpi-value.neg { color: var(--accent-neg); }
+
+.kpi-label {
+    font-family: var(--font-body);
+    font-size: clamp(0.65rem, 0.9vw, 0.78rem);
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+/* === RIGHT COLUMN: TABLE === */
+.col-right {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 2vh, 20px);
+    opacity: 0;
+    animation: fadeUp 0.4s ease 0.5s both;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-body);
+}
+
+.data-table th {
+    font-family: var(--font-mono);
+    font-size: clamp(0.5rem, 0.7vw, 0.6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    padding: clamp(6px, 1vh, 10px) clamp(8px, 1vw, 12px);
+    border-bottom: 1px solid var(--header-stripe);
+    text-align: left;
+    font-weight: 400;
+}
+
+.data-table th:not(:first-child) { text-align: right; }
+
+.data-table td {
+    font-size: clamp(0.72rem, 1vw, 0.88rem);
+    padding: clamp(6px, 1vh, 10px) clamp(8px, 1vw, 12px);
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+    font-weight: 300;
+}
+
+.data-table td:not(:first-child) {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: clamp(0.68rem, 0.95vw, 0.82rem);
+}
+
+.data-table tr:nth-child(even) td { background: rgba(0,0,0,0.018); }
+.data-table .highlight td { font-weight: 600; }
+.data-table .highlight td:not(:first-child) { color: var(--accent-pos); }
+
+/* === FOOTER === */
+.footer {
+    padding: clamp(10px, 1.5vh, 16px) clamp(32px, 4vw, 64px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.4s ease 0.7s both;
+}
+
+.footer-text {
+    font-family: var(--font-mono);
+    font-size: clamp(0.52rem, 0.7vw, 0.62rem);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.style-badge {
+    font-family: var(--font-mono);
+    font-size: clamp(0.52rem, 0.7vw, 0.62rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+}
+
+/* === ANIMATIONS === */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; opacity: 1 !important; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="slide">
+
+    <!-- HEADER STRIPE -->
+    <div class="header-stripe">
+        <div class="header-title">SEA Market Performance Review — Q3</div>
+        <div class="header-meta">Style Preview B — Ledger Light</div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- KPI COLUMN -->
+        <div class="col-left">
+            <div class="col-label">Key Performance Indicators</div>
+            <div class="kpi-grid">
+                <div class="kpi-card" style="--delay:0.28s">
+                    <div class="kpi-value pos">+34%</div>
+                    <div class="kpi-label">GMV YoY Growth</div>
+                </div>
+                <div class="kpi-card" style="--delay:0.34s">
+                    <div class="kpi-value">2.1×</div>
+                    <div class="kpi-label">Subscriber Base</div>
+                </div>
+                <div class="kpi-card" style="--delay:0.40s">
+                    <div class="kpi-value neg">−18pp</div>
+                    <div class="kpi-label">Churn Rate ΔoY</div>
+                </div>
+                <div class="kpi-card" style="--delay:0.46s">
+                    <div class="kpi-value">106%</div>
+                    <div class="kpi-label">Attainment vs Plan</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider-col"></div>
+
+        <!-- TABLE COLUMN -->
+        <div class="col-right">
+            <div class="col-label">Country Breakdown</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Market</th>
+                        <th>Subscribers</th>
+                        <th>GMV Coverage</th>
+                        <th>vs Plan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Vietnam</td><td>341K</td><td>28%</td><td>+6pp</td></tr>
+                    <tr><td>Indonesia</td><td>512K</td><td>31%</td><td>+3pp</td></tr>
+                    <tr class="highlight"><td>Thailand</td><td>198K</td><td>24%</td><td>+9pp</td></tr>
+                    <tr><td>Philippines</td><td>144K</td><td>19%</td><td>+1pp</td></tr>
+                    <tr><td>Malaysia</td><td>89K</td><td>22%</td><td>+4pp</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <span class="footer-text">biz-slides / Ledger Light</span>
+        <span class="style-badge">Light · Analyst-Grade</span>
+    </div>
+
+</div>
+
+</body>
+</html>

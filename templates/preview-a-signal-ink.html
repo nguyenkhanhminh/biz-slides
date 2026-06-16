@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style A — Signal Ink</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; width: 100%; overflow: hidden; background: #0e0e0e; }
+
+/* === THEME === */
+:root {
+    --bg:           #0e0e0e;
+    --surface:      #161616;
+    --text-primary: #f0ede8;
+    --text-muted:   #4a4744;
+    --accent:       #e8c547;
+    --accent-dim:   #2e2810;
+    --rule:         #222222;
+    --font-display: 'Instrument Serif', Georgia, serif;
+    --font-mono:    'DM Mono', 'Courier New', monospace;
+}
+
+/* === SLIDE === */
+.slide {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: clamp(32px, 5vw, 80px);
+    background: var(--bg);
+}
+
+/* === TOP: MAIN CONTENT === */
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(20px, 3vh, 40px);
+}
+
+/* === EYEBROW === */
+.eyebrow {
+    font-family: var(--font-mono);
+    font-size: clamp(0.6rem, 0.9vw, 0.75rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.1s both;
+}
+
+/* === HEADLINE === */
+h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2.4rem, 5.5vw, 5.2rem);
+    line-height: 1.0;
+    color: var(--text-primary);
+    letter-spacing: -0.015em;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.2s both;
+}
+
+h1 em {
+    font-style: normal;
+    color: var(--accent);
+}
+
+/* === RULE === */
+.rule {
+    width: 48px;
+    height: 1px;
+    background: var(--text-muted);
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.35s both;
+}
+
+/* === SUBTITLE === */
+.subtitle {
+    font-family: var(--font-mono);
+    font-size: clamp(0.8rem, 1.3vw, 1rem);
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 520px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.45s both;
+}
+
+/* === METRIC ROW === */
+.metrics {
+    display: flex;
+    gap: clamp(32px, 5vw, 64px);
+    padding-top: clamp(8px, 1.5vh, 20px);
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.55s both;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.metric-value {
+    font-family: var(--font-mono);
+    font-size: clamp(1.6rem, 3vw, 2.8rem);
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.metric-value span {
+    color: var(--accent);
+}
+
+.metric-label {
+    font-family: var(--font-mono);
+    font-size: clamp(0.55rem, 0.8vw, 0.65rem);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+}
+
+/* === BOTTOM BAR === */
+.bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: clamp(16px, 2.5vh, 28px);
+    border-top: 1px solid var(--rule);
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.7s both;
+}
+
+.bottom-label {
+    font-family: var(--font-mono);
+    font-size: clamp(0.55rem, 0.75vw, 0.65rem);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+}
+
+.style-badge {
+    font-family: var(--font-mono);
+    font-size: clamp(0.55rem, 0.75vw, 0.65rem);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    padding: 4px 10px;
+}
+
+/* === ACCENT LINE === */
+.accent-line {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    animation: fadeIn 0.8s ease 0s both;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* === REDUCED MOTION === */
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; opacity: 1 !important; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="accent-line"></div>
+
+<div class="slide">
+    <div class="main">
+        <div class="eyebrow">Style Preview A — Signal Ink</div>
+
+        <h1>Revenue grew<br><em>+34%</em> this quarter</h1>
+
+        <div class="rule"></div>
+
+        <p class="subtitle">
+            Driven by VIP subscriber expansion across SEA markets and
+            Multi-Month plan adoption reducing churn by 18 points.
+        </p>
+
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-value"><span>2.1×</span></div>
+                <div class="metric-label">Active Subscribers</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">↓<span>18</span>pp</div>
+                <div class="metric-label">Churn Rate</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value"><span>106</span>%</div>
+                <div class="metric-label">GMV vs Target</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <span class="bottom-label">biz-slides / Signal Ink</span>
+        <span class="style-badge">Dark · Authoritative</span>
+    </div>
+</div>
+
+</body>
+</html>

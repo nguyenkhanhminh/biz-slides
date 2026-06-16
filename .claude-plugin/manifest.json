@@ -1,0 +1,15 @@
+{
+  "name": "biz-slides",
+  "version": "1.0.0",
+  "description": "Create sharp, data-forward HTML presentations for business, strategy, and analytics. Single-file output, zero dependencies, 8 curated visual systems.",
+  "skills": [
+    {
+      "name": "biz-slides",
+      "path": "SKILL.md",
+      "description": "Create or convert business presentations to beautiful single-file HTML decks."
+    }
+  ],
+  "repository": "https://github.com/YOUR_USERNAME/biz-slides",
+  "author": "your-github-handle",
+  "license": "MIT"
+}

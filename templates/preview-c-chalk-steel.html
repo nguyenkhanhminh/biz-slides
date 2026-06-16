@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style C — Chalk &amp; Steel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; width: 100%; overflow: hidden; background: #f7f5f1; }
+
+/* === THEME === */
+:root {
+    --bg:           #f7f5f1;
+    --surface:      #ffffff;
+    --text-primary: #1c1c1c;
+    --text-muted:   #888580;
+    --accent:       #2c4a6e;
+    --accent-light: #dce6f0;
+    --accent-mid:   #8faabb;
+    --rule:         #d8d4ce;
+    --font-display: 'Cormorant', Georgia, serif;
+    --font-body:    'Jost', sans-serif;
+}
+
+/* === SLIDE === */
+.slide {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    grid-template-columns: clamp(180px, 22vw, 300px) 1fr;
+    background: var(--bg);
+}
+
+/* === LEFT NAV PANEL === */
+.nav-panel {
+    background: var(--accent);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(32px, 4vh, 56px) clamp(24px, 2.5vw, 36px);
+    opacity: 0;
+    animation: slideRight 0.5s ease 0s both;
+}
+
+.nav-logo {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: clamp(0.65rem, 0.9vw, 0.8rem);
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+.nav-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 1.8vh, 18px);
+}
+
+.nav-item {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: clamp(0.72rem, 1vw, 0.88rem);
+    color: rgba(255,255,255,0.45);
+    line-height: 1.4;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding-left: 12px;
+    border-left: 2px solid transparent;
+}
+
+.nav-item.active {
+    color: #fff;
+    border-left-color: rgba(255,255,255,0.5);
+    opacity: 1;
+}
+
+.nav-slide-count {
+    font-family: var(--font-body);
+    font-size: clamp(0.55rem, 0.75vw, 0.65rem);
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* === RIGHT CONTENT PANEL === */
+.content-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(40px, 5vh, 72px) clamp(40px, 5vw, 80px);
+    gap: clamp(20px, 3vh, 36px);
+    opacity: 0;
+    animation: fadeUp 0.55s ease 0.2s both;
+}
+
+/* === EYEBROW === */
+.eyebrow {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: clamp(0.62rem, 0.85vw, 0.75rem);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-muted);
+}
+
+/* === HEADLINE === */
+h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(2.2rem, 4.8vw, 4.8rem);
+    line-height: 1.05;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+h1 strong {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* === BODY === */
+.body-text {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: clamp(0.82rem, 1.2vw, 1rem);
+    line-height: 1.75;
+    color: var(--text-muted);
+    max-width: 480px;
+}
+
+/* === ACCENT CALLOUT === */
+.callout {
+    border-left: 3px solid var(--accent);
+    padding: clamp(12px, 1.5vh, 18px) clamp(16px, 2vw, 24px);
+    background: var(--accent-light);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 420px;
+}
+
+.callout-number {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.5vw, 3.2rem);
+    color: var(--accent);
+    line-height: 1;
+}
+
+.callout-label {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: clamp(0.65rem, 0.85vw, 0.75rem);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-mid);
+}
+
+/* === BOTTOM STRIPE === */
+.bottom-stripe {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0;
+    animation: fadeIn 0.6s ease 0.6s both;
+}
+
+/* === BADGE === */
+.style-badge {
+    position: fixed;
+    bottom: clamp(16px, 2.5vh, 24px);
+    right: clamp(20px, 2.5vw, 32px);
+    font-family: var(--font-body);
+    font-size: clamp(0.52rem, 0.7vw, 0.62rem);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    opacity: 0;
+    animation: fadeIn 0.5s ease 0.7s both;
+}
+
+/* === ANIMATIONS === */
+@keyframes slideRight {
+    from { opacity: 0; transform: translateX(-20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; opacity: 1 !important; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="slide">
+
+    <!-- LEFT NAV PANEL -->
+    <div class="nav-panel">
+        <div class="nav-logo">Strategy Review</div>
+
+        <ul class="nav-items">
+            <li class="nav-item">01 — Market Context</li>
+            <li class="nav-item active">02 — Performance</li>
+            <li class="nav-item">03 — Key Drivers</li>
+            <li class="nav-item">04 — Priorities</li>
+            <li class="nav-item">05 — Next Steps</li>
+        </ul>
+
+        <div class="nav-slide-count">Style Preview C — Chalk &amp; Steel</div>
+    </div>
+
+    <!-- RIGHT CONTENT PANEL -->
+    <div class="content-panel">
+        <div class="eyebrow">Q3 Performance</div>
+
+        <h1>Subscribers grew.<br><strong>Churn fell.</strong><br>Plan exceeded.</h1>
+
+        <p class="body-text">
+            The VIP program outperformed targets across all five SEA markets,
+            with Multi-Month adoption driving structural improvement in retention
+            — not just a one-quarter blip.
+        </p>
+
+        <div class="callout">
+            <div class="callout-number">106%</div>
+            <div class="callout-label">GMV Attainment vs Regional Plan</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="bottom-stripe"></div>
+<div class="style-badge">Light · Editorial Executive</div>
+
+</body>
+</html>
